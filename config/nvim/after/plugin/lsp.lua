@@ -12,8 +12,13 @@ lsp.ensure_installed({
 lsp.on_attach(function(_, bufnr)
     local opts = {buffer = bufnr, remap = false}
 
-    vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+    local function map(mode, mapping, func, desc)
+        vim.keymap.set(mode, mapping, func, vim.tbl_extend("force", opts, {desc = desc}))
+    end
+
+    map("n", "gD", function() vim.lsp.buf.declaration() end, "[G]o to [D]eclaration")
+    map("n", "gd", function() vim.lsp.buf.definition() end, "[G]o to [d]efinition")
+    map("n", "K", function() vim.lsp.buf.hover() end, "Hover [K]??")
     vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
     vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
     ---@diagnostic disable-next-line: missing-parameter
