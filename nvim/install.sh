@@ -7,7 +7,8 @@ then
 else
     config_dir=$XDG_CONFIG_HOME
 fi
-is_mac=$(uname | grep Linux)
+
+is_mac=$(uname | grep Darwin)
 
 if [[ -n "$is_mac:-" ]]
 then
