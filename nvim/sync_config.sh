@@ -18,10 +18,15 @@ then
     if [ -L "$config_symlink" ]
     then
         echo "Is a symlink"
+        rm "$config_dir"
     else
         echo "Is a directory"
+        rm -rf "$config_dir"
     fi
 else
     echo "Doesn't exist..."
 fi
+
+echo "Symlinking to config directory..."
+ln -s ./config/nvim "$config_symlink" 
 
