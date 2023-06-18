@@ -8,7 +8,7 @@ else
     config_dir=$XDG_CONFIG_HOME
 fi
 
-if [ -d "$config_dir" ]
+if [ ! -d "$config_dir" ]
 then
     echo "Config dir at '$config_dir' doesn't exist, creating..."
     mkdir -p "$config_dir"
