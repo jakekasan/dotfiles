@@ -33,6 +33,7 @@ else
     echo "Doesn't exist..."
 fi
 
-echo "Symlinking to config directory..."
-ln -s ./config/nvim "$config_symlink" 
+symlink_source="$PWD/nvim/config/nvim" 
+echo "Symlinking '$symlink_source' to '$config_symlink'"
+ln -s "$symlink_source" "$config_symlink" 
 
