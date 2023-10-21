@@ -15,6 +15,7 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.laststatus = 3
 
+vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.wrap = false
 vim.opt.swapfile = false

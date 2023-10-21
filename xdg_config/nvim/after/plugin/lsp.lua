@@ -6,7 +6,8 @@ lsp.ensure_installed({
     "eslint",
     "lua_ls",
     "rust_analyzer",
-    "pyright"
+    "pyright",
+    "jdtls"
 })
 
 lsp.on_attach(function(_, bufnr)
@@ -34,6 +35,17 @@ require("neodev").setup({})
 
 require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls({ flags = { allow_incremental_sync = false, debounce_text_changes = 30 }}))
 
+-- Scala
+require('lspconfig.configs').metals = {
+  default_config = {
+    name = "metals",
+    cmd = {"metals"},
+    filetypes = { "scala", "sbt", "java" },
+    root_dir = require('lspconfig.util').root_pattern({'some-config-file'})
+  }
+}
+
+require('lspconfig').metals.setup({})
 lsp.setup()
 
 local cmp = require("cmp")
