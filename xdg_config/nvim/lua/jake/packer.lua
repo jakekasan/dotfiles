@@ -46,8 +46,10 @@ return require('packer').startup(function(use)
         }
     }
 
+    use({'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }})
+
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.1',
+        'nvim-telescope/telescope.nvim', tag = '0.1.4',
         -- or                            , branch = '0.1.x',
         requires = {
             {"nvim-telescope/telescope-live-grep-args.nvim"},
@@ -78,5 +80,10 @@ return require('packer').startup(function(use)
     use { "tpope/vim-fugitive" }
 
     use { "folke/neodev.nvim" }
+
+    use {
+        "nvim-telescope/telescope-file-browser.nvim",
+        requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+    }
 end)
 

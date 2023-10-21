@@ -6,14 +6,20 @@ lsp.ensure_installed({
     "eslint",
     "lua_ls",
     "rust_analyzer",
-    "pyright"
+    "pyright",
+    "jdtls"
 })
 
 lsp.on_attach(function(_, bufnr)
     local opts = {buffer = bufnr, remap = false}
 
-    vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+    local function map(mode, mapping, func, desc)
+        vim.keymap.set(mode, mapping, func, vim.tbl_extend("force", opts, {desc = desc}))
+    end
+
+    map("n", "gD", function() vim.lsp.buf.declaration() end, "[G]o to [D]eclaration")
+    map("n", "gd", function() vim.lsp.buf.definition() end, "[G]o to [d]efinition")
+    map("n", "K", function() vim.lsp.buf.hover() end, "Hover [K]??")
     vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
     vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
     ---@diagnostic disable-next-line: missing-parameter
@@ -29,6 +35,17 @@ require("neodev").setup({})
 
 require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls({ flags = { allow_incremental_sync = false, debounce_text_changes = 30 }}))
 
+-- Scala
+require('lspconfig.configs').metals = {
+  default_config = {
+    name = "metals",
+    cmd = {"metals"},
+    filetypes = { "scala", "sbt", "java" },
+    root_dir = require('lspconfig.util').root_pattern({'some-config-file'})
+  }
+}
+
+require('lspconfig').metals.setup({})
 lsp.setup()
 
 local cmp = require("cmp")
