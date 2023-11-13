@@ -4,16 +4,24 @@ has_jq=$(which jq)
 
 if [[ -z "$has_jq" ]]; then
     echo "jq not installed"
-    exit 1
+    exit 127 # command not found
 fi
+
+if [[ -z "$XDG_DATA_HOME" ]]; then
+    data_home=~/.local/share
+else
+    data_home=$XDG_DATA_HOME
+fi
+
+data_dir="$data_home/meme"
 
 selected=$(cat ~/memes.json | jq '.[].name' | fzf)
 
 echo "Selected: $selected"
 
 full_json=$(cat ~/memes.json | jq "map(select(.name == $selected))[0]")
-id=$(echo $full_json | jq '.id')
-base_url=$(echo $full_json | jq '.blank')
+id=$(echo $full_json | jq -r '.id')
+base_url=$(echo $full_json | jq -r '.blank')
 n_parts=$(echo $full_json | jq '.lines')
 
 parts=()
@@ -22,7 +30,6 @@ for ((i=1;i<=$n_parts;++i)) do
     read -p "Enter phrase #$i: " value
     fixed=$(echo "$value" | sed "s/ /_/g" | sed "s/?/~q/g" | sed "s/%/~p/g" | sed "s/#/~h/g" | tr "[:upper:]" "[:lower:]")
     echo "Got: '$value', fixed to: '$fixed'"
-    # parts[i]=$value
     if [[ -z "$fixed" ]]; then
         parts[i]="_"
     else
@@ -30,15 +37,21 @@ for ((i=1;i<=$n_parts;++i)) do
     fi
 done
 
-bare_id=$(echo $id | tr '"' '')
-pattern="\(.*$bare_id\)\(\..*\)$"
+pattern="\(.*$id\)\(\..*\)$"
 
 prefix=$(echo $base_url | sed "s/$pattern/\1/g")
 suffix=$(echo $base_url | sed "s/$pattern/\2/g")
 
-core=$(printf "/%s" ${parts[@]})
+function join { local IFS="$1"; shift; echo "$*"; }
+core=$(printf "/%s" "${parts[@]}")
+name=$(join - ${parts[@]})
 
 final_url=$(echo "$prefix$core$suffix" | sed 's/"//g')
 
-echo "Final url: '$final_url'"
+meme_dir=$data_dir/$id
+full_out_path="$meme_dir/$name$suffix"
+mkdir -p $meme_dir
+curl $final_url --output $full_out_path
+open $full_out_path
+
 
