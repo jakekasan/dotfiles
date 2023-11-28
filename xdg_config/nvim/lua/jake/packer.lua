@@ -85,5 +85,10 @@ return require('packer').startup(function(use)
         "nvim-telescope/telescope-file-browser.nvim",
         requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
     }
-end)
 
+    use {
+        "https://codeberg.org/esensar/nvim-dev-container",
+        requires = { "nvim/treesitter" }
+    }
+
+end)
