@@ -1,9 +1,9 @@
--- vim.g.tokyonight_transparent_sidebar = true
--- vim.g.tokyonight_transparent = true
 vim.opt.background = "dark"
 
 require("tokyonight").setup({
-    transparent = true,
+    style = "storm",
+    transparent = false,
+    dim_inactive = true,
     styles = {
         sidebars = "transparent",
         floats = "transparent",
