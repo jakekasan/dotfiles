@@ -9,17 +9,14 @@ local file_exists = function(path)
     return contents ~= nil
 end
 
+M.file_exists = file_exists
+
 ---@class DevContainerConfig
----@field user string
+---@field name string
 ---@field context string
 ---@field container_args string[]
 ---@field run_args string[]
-
 local DevContainerConfig = {}
----@param name string
----@param context string
----@param container_args string[]
----@param run_args string[]
 function DevContainerConfig:new(name, context, container_args, run_args)
     local data = {
         name = name,
@@ -30,56 +27,7 @@ function DevContainerConfig:new(name, context, container_args, run_args)
     self.__index = self
     return setmetatable(data, self)
 end
-
----@param value any
----@return string
-local function ensure_is_string(value)
-    if type(value) ~= "string" then
-        error("Value '" .. value .. "' was not a string")
-    end
-    return value
-end
-
----@param value any
----@return string[]
-local function ensure_is_array_of_strings(value)
-    if type(value) ~= "table" then
-        error("Expected a 'table', not '" .. type(value) .. "'")
-    end
-
-    ---@type string[]
-    local results = {}
-    for i, item in ipairs(value) do
-        if type(item) ~= "string" then
-            error("Value at index " .. i .. " is not string but '" .. type(item) .. "'")
-        else
-            table.insert(results, item)
-        end
-    end
-
-    return results
-end
-
----@param path string
-local function read_as_json(path)
-    local content = io.read(path)
-    if type(content) ~= "string" then
-        error("File at path '" .. path .. "' could not be loaded")
-    end
-
-    if content == nil or type(content) ~= "string" then
-        error("Unable to read content from " .. path)
-    end
-
-    local data = vim.json.decode(content)
-
-    if data == nil or type(data) ~= "table" then
-        error("Expected to load a table, instead got '" .. type(data) .. "'")
-    end
-
-    return data
-end
-
+--
 ---@param path string
 ---@return DevContainerConfig
 function DevContainerConfig:from_json_file(path)
@@ -98,10 +46,8 @@ function DevContainerConfig:from_json(data)
 end
 
 ---@class DevContainer
----@field private dockerfile string
----@field private config DevContainerConfig
 local DevContainer = {}
-function DevContainer:new()
+function DevContainer:foo()
     local data = { }
     self.__index = self
     return setmetatable(data, self)
@@ -110,8 +56,6 @@ end
 M.DevContainer = DevContainer
 M.DevContainerConfig = DevContainerConfig
 
----@class Workspace
----@field private root string
 local Workspace = {}
 function Workspace:new(root)
     local data = {root = root}
@@ -119,8 +63,11 @@ function Workspace:new(root)
     return setmetatable(data, self)
 end
 
-function Workspace:create()
+function Workspace.create()
     local folder = Workspace:find_devcontainer_folder()
+    if folder == nil then
+        error("No workspace folder found...")
+    end
 end
 
 ---@return string?

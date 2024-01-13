@@ -26,7 +26,7 @@ describe("DevContainerConfig", function()
             local input = { name = "some name", context = "..", run_args = {} }
             assert.is.error(function() DevContainerConfig:from_json(input) end)
         end)
-        
+
         it("all good", function ()
             local input = { name = "some name", context = "..", run_args = {}, container_args = {} }
             assert.is_not.error(function() DevContainerConfig:from_json(input) end)
