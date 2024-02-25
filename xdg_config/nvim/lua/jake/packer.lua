@@ -8,6 +8,7 @@ return require("packer").startup(function(use)
     use "wbthomason/packer.nvim"
 
     use "folke/tokyonight.nvim"
+    use "nvim-lua/plenary.nvim"
 
     use {
         "nvim-treesitter/nvim-treesitter",
@@ -49,7 +50,7 @@ return require("packer").startup(function(use)
             {"nvim-telescope/telescope-live-grep-args.nvim"},
             {"nvim-lua/plenary.nvim"}
         },
-        config = function ()
+        config = function()
             require("telescope").load_extension("live_grep_args")
         end
     }
@@ -97,6 +98,12 @@ return require("packer").startup(function(use)
             "nvim-lua/plenary.nvim",
             "stevearc/dressing.nvim"
         }
+    }
+
+    use {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        requires = { {"nvim-lua/plenary.nvim"} }
     }
 
 end)

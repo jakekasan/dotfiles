@@ -19,9 +19,10 @@ lsp.on_attach(function(_, bufnr)
 
     map("n", "gD", function() vim.lsp.buf.declaration() end, "[G]o to [D]eclaration")
     map("n", "gd", function() vim.lsp.buf.definition() end, "[G]o to [d]efinition")
+    map("n", "gi", function() vim.lsp.buf.implementation() end, "[G] List [i]mplementation")
     map("n", "K", function() vim.lsp.buf.hover() end, "Hover [K]??")
-    map("n", "]d", function() vim.diagnostic.goto_next() end)
-    map("n", "[d", function() vim.diagnostic.goto_prev() end)
+    map("n", "]d", function() vim.diagnostic.goto_next() end, "Next [d] diagnostic")
+    map("n", "[d", function() vim.diagnostic.goto_prev() end, "Previous [d] diagnostic")
     ---@diagnostic disable-next-line: missing-parameter
     map("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
     map("n", "<leader>vd", function() vim.diagnostic.open_float() end)
@@ -33,7 +34,22 @@ end)
 
 require("neodev").setup({})
 
-require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls({ flags = { allow_incremental_sync = false, debounce_text_changes = 30 }}))
+require("lspconfig").lua_ls.setup(
+    lsp.nvim_lua_ls({
+        flags = { allow_incremental_sync = true, debounce_text_changes = 30 },
+        settings = {
+            Lua = {
+                workspace = {
+                    library = {
+                        vim.fn.expand("$VIMRUNTIME/lua"),
+                        vim.fn.stdpath("config") .. "/lua"
+                        -- TODO: Find a way of disabling just a specific path
+                    }
+                }
+            }
+        }
+    })
+)
 
 -- Scala
 require('lspconfig.configs').metals = {

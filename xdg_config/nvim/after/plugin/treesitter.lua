@@ -1,18 +1,29 @@
 require('nvim-treesitter.configs').setup {
-    ensure_installed = {"c", "lua", "python", "vim", "vimdoc", "query", "javascript", "jsonc", "sql", "r"},
-
+    ensure_installed = {
+        "bash",
+        "c",
+        "html",
+        "javascript",
+        "jsonc",
+        "lua",
+        "python",
+        "query",
+        "r",
+        "rust",
+        "sql",
+        "vim",
+        "vimdoc",
+        "yaml"
+    },
     sync_install = false,
-
     highlight = {
         enable = true
     },
-
     query_linter = {
         enable = true,
         use_virtual_text = true,
         lint_events = {"BufWrite", "CursorHold"}
     },
-
     playground = {
         enable = true,
         disable = {},
