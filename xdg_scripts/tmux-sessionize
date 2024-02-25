@@ -28,7 +28,7 @@ function is_tmux_attached {
     fi
 }
 
-tmux_is_running=(pgrep tmux)
+tmux_is_running=$(pgrep tmux)
 tmux_is_attached=$(is_tmux_attached)
 log_if_debug "Session name will be: '$name'"
 
