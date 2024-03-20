@@ -10,7 +10,7 @@ function log_if_debug {
 log_if_debug "Selecting from options."
 choice=$(find ~/.config ~/code/learning ~/code/work/salon-pro ~/code/work/nhs ~/code/projects ~/code/personal -mindepth 1 -maxdepth 1 | fzf)
 
-if [ -z "$choice" ]; then
+if [[ -z "$choice" ]]; then
     log_if_debug "No option selected, will exit."
     exit
 else
@@ -20,7 +20,7 @@ fi
 name=$(echo $choice | tr "/" "\n" | tail --lines 2 | tr "\n" "/" | sed -E 's/(.*)\/$/\1/g' | tr "." "_" | tr ":" "_")
 
 function is_tmux_attached {
-    if [ -z ${TMUX+x} ]
+    if [[ -z ${TMUX+x} ]]
     then
         echo "false"
     else
@@ -32,14 +32,14 @@ tmux_is_running=$(pgrep tmux)
 tmux_is_attached=$(is_tmux_attached)
 log_if_debug "Session name will be: '$name'"
 
-if [ -z $tmux_is_running ]
+if [[ -z $tmux_is_running ]]
 then
     log_if_debug "TMUX is not running, starting new session"
     tmux new-session -c $choice -s $name
 else
     log_if_debug "TMUX is already running. Checking if session '$name' exists."
     session_exists=$(tmux ls | grep $name)
-    if [ -z $session_exists ]
+    if [[ -z $session_exists ]]
     then
         log_if_debug "Session '$name' doesn't already exist, creating."
         tmux new-session -d -c $choice -s $name
