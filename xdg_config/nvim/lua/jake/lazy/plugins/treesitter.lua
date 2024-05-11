@@ -7,14 +7,18 @@ return {
         configs.setup({
             ensure_installed = {
                 "c",
+                "css",
+                "html",
+                "javascript",
+                "json",
                 "lua",
+                "python",
+                "query",
+                "tsx",
+                "typescript",
                 "vim",
                 "vimdoc",
-                "query",
-                "javascript",
-                "html",
-                "json",
-                "python"
+                "yaml"
             },
             sync_install = false,
             highlight = { enable = true },
