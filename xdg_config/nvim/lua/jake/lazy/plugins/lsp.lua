@@ -42,7 +42,9 @@ return {
                         workspace = {
                             library = {
                                 vim.fn.expand("$VIMRUNTIME/lua"),
-                                vim.fn.stdpath("config") .. "/lua"
+                                vim.fn.stdpath("config") .. "/lua",
+                                vim.fn.expand("~/.local/share/nvim/lazy/plenary.nvim/lua"),
+                                vim.fn.expand("~/.local/share/nvim/lazy/*/lua")
                             }
                         }
                     }
