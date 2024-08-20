@@ -10,7 +10,7 @@ return {
     config = function()
         local harpoon = require("harpoon")
         harpoon:setup({})
-        map("n", "<leader>ha", function() harpoon:list():append() end, "[a]dd to harpoon")
+        map("n", "<leader>ha", function() harpoon:list():add() end, "[a]dd to harpoon")
         map("n", "<leader>hl", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, "Show [h]arpoon [l]ist")
         map("n", "<leader>h1", function() harpoon:list():select(1) end, "Select [h]arpoon item [1]")
         map("n", "<leader>h2", function() harpoon:list():select(2) end, "Select [h]arpoon item [2]")
