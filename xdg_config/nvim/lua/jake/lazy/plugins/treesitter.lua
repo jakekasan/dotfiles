@@ -9,6 +9,7 @@ return {
         "c",
         "css",
         "go",
+        "hcl",
         "html",
         "javascript",
         "json",

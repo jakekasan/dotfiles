@@ -1,17 +1,17 @@
 return {
-    "williamboman/mason.nvim",
-    dependencies = {
-        "williamboman/mason-lspconfig.nvim",
-        "neovim/nvim-lspconfig"
-    },
-    config = function()
-        require("mason").setup()
-        require("mason-lspconfig").setup({
-            ensure_installed = {},
-            handlers = {
-                require("lsp-zero").default_setup
-            }
-        })
-    end
+  "williamboman/mason.nvim",
+  dependencies = {
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig"
+  },
+  config = function()
+    require("mason").setup()
+    require("mason-lspconfig").setup({
+      ensure_installed = {},
+      handlers = {
+        -- require("lsp-zero").default_setup
+      }
+    })
+  end
 }
 

@@ -1,57 +1,110 @@
 local utils = require("jake.utils")
 
+local function on_attach(_, bufnr)
+  local nmap = utils.make_map("n", {buffer = bufnr})
+  local imap = utils.make_map("i", {buffer = bufnr})
+
+  nmap("gD", function() vim.lsp.buf.declaration() end, "[G]o to [D]eclaration")
+  nmap("gd", function() vim.lsp.buf.definition() end, "[G]o to [d]efinition")
+  nmap("gi", function() vim.lsp.buf.implementation() end, "[G] List [i]mplementation")
+  nmap("K", function() vim.lsp.buf.hover() end, "Hover [K]??")
+  nmap("]d", function() vim.diagnostic.goto_next() end, "Next [d] diagnostic")
+  nmap("[d", function() vim.diagnostic.goto_prev() end, "Previous [d] diagnostic")
+  ---@diagnostic disable-next-line: missing-parameter
+  -- nmap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
+  -- nmap("<leader>vd", function() vim.diagnostic.open_float() end)
+  nmap("<leader>vca", function() vim.lsp.buf.code_action() end)
+  nmap("<leader>vrr", function() vim.lsp.buf.references() end)
+  nmap("<leader>vrn", function() vim.lsp.buf.rename() end)
+  imap("<C-h>", function() vim.lsp.buf.signature_help() end, "Signature [h]elp")
+end
+
 return {
-    "VonHeikemen/lsp-zero.nvim",
-    branch = "v3.x",
-    dependencies = {
-        "neovim/nvim-lspconfig",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/nvim-cmp",
-        "L3MON4D3/LuaSnip",
-        "williamboman/mason.nvim",
-        "folke/neodev.nvim"
+  "neovim/nvim-lspconfig",
+  dependencies = {
+    "saghen/blink.cmp",
+    "williamboman/mason.nvim",
+    {
+      "folke/lazydev.nvim",
+      ft = "lua", -- only load on lua files
+      opts = {
+        library = {
+          -- See the configuration section for more details
+          -- Load luvit types when the `vim.uv` word is found
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        },
+      },
     },
-    lazy = false,
-    config = function()
-        local lsp_zero = require("lsp-zero")
-        lsp_zero.on_attach(function(_, bufnr)
-            -- lsp_zero.default_keymaps({buffer = bufnr})
-            local nmap = utils.make_map("n", {buffer = bufnr})
-            local imap = utils.make_map("i", {buffer = bufnr})
+  },
+  lazy = false,
+  config = function()
+    local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-            nmap("gD", function() vim.lsp.buf.declaration() end, "[G]o to [D]eclaration")
-            nmap("gd", function() vim.lsp.buf.definition() end, "[G]o to [d]efinition")
-            nmap("gi", function() vim.lsp.buf.implementation() end, "[G] List [i]mplementation")
-            nmap("K", function() vim.lsp.buf.hover() end, "Hover [K]??")
-            nmap("]d", function() vim.diagnostic.goto_next() end, "Next [d] diagnostic")
-            nmap("[d", function() vim.diagnostic.goto_prev() end, "Previous [d] diagnostic")
-            ---@diagnostic disable-next-line: missing-parameter
-            -- nmap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-            -- nmap("<leader>vd", function() vim.diagnostic.open_float() end)
-            nmap("<leader>vca", function() vim.lsp.buf.code_action() end)
-            nmap("<leader>vrr", function() vim.lsp.buf.references() end)
-            nmap("<leader>vrn", function() vim.lsp.buf.rename() end)
-            imap("<C-h>", function() vim.lsp.buf.signature_help() end, "Signature [h]elp")
-        end)
+    require("lspconfig").basedpyright.setup({
+      on_attach=on_attach,
+      capabilities = capabilities,
+      settings = {
+        python = {
+          analysis = {
+            typeCheckingMode = "strict"
+          }
+        }
+      }
+    })
 
-        require("lspconfig").lua_ls.setup(
-            lsp_zero.nvim_lua_ls({
-                flags = { allow_incremental_sync = true, debounce_text_changes = 30 },
-                settings = {
-                    Lua = {
-                        workspace = {
-                            library = {
-                                vim.fn.expand("$VIMRUNTIME/lua"),
-                                vim.fn.stdpath("config") .. "/lua",
-                                vim.fn.expand("~/.local/share/nvim/lazy/plenary.nvim/lua"),
-                                vim.fn.expand("~/.local/share/nvim/lazy/*/lua")
-                            }
-                        }
-                    }
-                }
-            })
-        )
-        lsp_zero.setup()
-    end
+    require("lspconfig").cssls.setup({
+      on_attach=on_attach,
+      capabilities = capabilities,
+    })
+
+    require'lspconfig'.djlsp.setup{}
+
+    require("lspconfig").dockerls.setup({})
+
+    require("lspconfig").gopls.setup({
+      on_attach=on_attach,
+      capabilities = capabilities,
+    })
+
+
+    require("lspconfig").hls.setup({
+      on_attach=on_attach,
+      capabilities = capabilities,
+      cmd = { "haskell-language-server-wrapper", "--lsp" }
+    })
+
+    require("lspconfig").intelephense.setup({
+      on_attach=on_attach,
+      capabilities = capabilities,
+      root_dir=function()
+        return vim.loop.cwd()
+      end
+    })
+
+    require("lspconfig").lua_ls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+
+    require("lspconfig").r_language_server.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+
+    require'lspconfig'.terraformls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+
+    require("lspconfig").ts_ls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+
+    require('lspconfig').yamlls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+  end
 }
 
