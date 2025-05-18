@@ -10,9 +10,6 @@ local function on_attach(_, bufnr)
   nmap("K", function() vim.lsp.buf.hover() end, "Hover [K]??")
   nmap("]d", function() vim.diagnostic.goto_next() end, "Next [d] diagnostic")
   nmap("[d", function() vim.diagnostic.goto_prev() end, "Previous [d] diagnostic")
-  ---@diagnostic disable-next-line: missing-parameter
-  -- nmap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-  -- nmap("<leader>vd", function() vim.diagnostic.open_float() end)
   nmap("<leader>vca", function() vim.lsp.buf.code_action() end)
   nmap("<leader>vrr", function() vim.lsp.buf.references() end)
   nmap("<leader>vrn", function() vim.lsp.buf.rename() end)
@@ -31,6 +28,7 @@ return {
         library = {
           -- See the configuration section for more details
           -- Load luvit types when the `vim.uv` word is found
+          { "nvim-dap-ui" },
           { path = "${3rd}/luv/library", words = { "vim%.uv" } },
         },
       },

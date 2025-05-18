@@ -2,16 +2,13 @@ return {
   "williamboman/mason.nvim",
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
-    "neovim/nvim-lspconfig"
+    "neovim/nvim-lspconfig",
+    "jay-babu/mason-nvim-dap.nvim"
   },
   config = function()
-    require("mason").setup()
-    require("mason-lspconfig").setup({
-      ensure_installed = {},
-      handlers = {
-        -- require("lsp-zero").default_setup
-      }
-    })
+    require("mason").setup({})
+    require("mason-lspconfig").setup({})
+    require("mason-nvim-dap").setup({})
   end
 }
 

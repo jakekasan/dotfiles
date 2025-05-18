@@ -1,6 +1,3 @@
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
-
 vim.opt.guicursor = ""
 vim.opt.cursorline = true
 vim.opt.splitbelow = true
@@ -25,4 +22,3 @@ vim.opt.swapfile = false
 vim.opt.termguicolors = true
 vim.opt.scrolloff = 8
 vim.g.mapleader = " "
-
