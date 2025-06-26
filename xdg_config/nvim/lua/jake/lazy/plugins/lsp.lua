@@ -33,12 +33,23 @@ return {
         },
       },
     },
+    { "nvim-java/nvim-java" }
   },
   lazy = false,
   config = function()
     local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-    require("lspconfig").basedpyright.setup({
+    require("java").setup({
+      spring_boot_tools = { enable = false }
+    })
+    local lsp = require("lspconfig")
+
+    lsp.astro.setup({
+      on_attach=on_attach,
+      capabilities=capabilities
+    })
+
+    lsp.basedpyright.setup({
       on_attach=on_attach,
       capabilities = capabilities,
       settings = {
@@ -50,28 +61,35 @@ return {
       }
     })
 
-    require("lspconfig").cssls.setup({
+    lsp.cssls.setup({
       on_attach=on_attach,
       capabilities = capabilities,
     })
 
-    require'lspconfig'.djlsp.setup{}
+    lsp.denols.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+      root_dir = lsp.util.root_pattern("deno.json", "deno.jsonc"),
+    })
 
-    require("lspconfig").dockerls.setup({})
+    lsp.djlsp.setup({})
 
-    require("lspconfig").gopls.setup({
+    lsp.dockerls.setup({})
+
+    lsp.gopls.setup({
       on_attach=on_attach,
       capabilities = capabilities,
     })
 
+    lsp.gradle_ls.setup({})
 
-    require("lspconfig").hls.setup({
+    lsp.hls.setup({
       on_attach=on_attach,
       capabilities = capabilities,
       cmd = { "haskell-language-server-wrapper", "--lsp" }
     })
 
-    require("lspconfig").intelephense.setup({
+    lsp.intelephense.setup({
       on_attach=on_attach,
       capabilities = capabilities,
       root_dir=function()
@@ -79,27 +97,46 @@ return {
       end
     })
 
-    require("lspconfig").lua_ls.setup({
+    lsp.jdtls.setup({
+      on_attach=on_attach,
+      capabilities=capabilities,
+    })
+
+    lsp.jsonls.setup({})
+
+    lsp.lua_ls.setup({
       on_attach = on_attach,
       capabilities = capabilities,
     })
 
-    require("lspconfig").r_language_server.setup({
+    lsp.r_language_server.setup({
       on_attach = on_attach,
       capabilities = capabilities,
     })
 
-    require'lspconfig'.terraformls.setup({
+    lsp.tailwindcss.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+      settings = {
+        tailwindCSS = {
+          classFunctions = { "cva", "cx" }
+        }
+      }
+    })
+
+    lsp.terraformls.setup({
       on_attach = on_attach,
       capabilities = capabilities,
     })
 
-    require("lspconfig").ts_ls.setup({
+    lsp.ts_ls.setup({
       on_attach = on_attach,
       capabilities = capabilities,
+      root_dir = lsp.util.root_pattern("package.json"),
+      single_file_support = false
     })
 
-    require('lspconfig').yamlls.setup({
+    lsp.yamlls.setup({
       on_attach = on_attach,
       capabilities = capabilities,
     })
