@@ -72,9 +72,15 @@ return {
       root_dir = lsp.util.root_pattern("deno.json", "deno.jsonc"),
     })
 
-    lsp.djlsp.setup({})
+    lsp.djlsp.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
 
-    lsp.dockerls.setup({})
+    lsp.dockerls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
 
     lsp.gopls.setup({
       on_attach=on_attach,
@@ -102,7 +108,10 @@ return {
       capabilities=capabilities,
     })
 
-    lsp.jsonls.setup({})
+    lsp.jsonls.setup({
+      on_attach=on_attach,
+      capabilities=capabilities,
+    })
 
     lsp.lua_ls.setup({
       on_attach = on_attach,
