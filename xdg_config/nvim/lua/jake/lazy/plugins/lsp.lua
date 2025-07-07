@@ -123,6 +123,11 @@ return {
       capabilities = capabilities,
     })
 
+    lsp.ruby_lsp.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+
     lsp.tailwindcss.setup({
       on_attach = on_attach,
       capabilities = capabilities,
