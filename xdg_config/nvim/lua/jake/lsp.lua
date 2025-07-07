@@ -21,8 +21,10 @@ vim.lsp.enable({
   "jsonls",
   "lua_ls",
   "ts_ls",
-  "ty"
 })
+
+vim.lsp.enable("pyright", false)
+vim.lsp.enable("ty", false) -- not ready
 
 local function add_mappings(_, bufnr)
   local nmap = utils.make_map("n", {buffer = bufnr})
