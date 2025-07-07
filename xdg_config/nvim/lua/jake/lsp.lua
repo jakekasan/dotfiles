@@ -13,9 +13,6 @@ vim.lsp.config["lua_ls"] = {
   }
 }
 
-vim.lsp.config["ty"] = {
-}
-
 vim.lsp.enable({
   "basedpyright",
   "cssls",
