@@ -13,14 +13,36 @@ vim.lsp.config["lua_ls"] = {
   }
 }
 
+vim.lsp.config["denols"] = {
+  root_dir = function(_, callback)
+    local dir = vim.fs.root(0, { "deno.json", "deno.jsonc" })
+    if dir then
+      return callback(dir)
+    end
+  end
+}
+
+vim.lsp.enable({ "denols" })
+
+---@type vim.lsp.Config
+vim.lsp.config["ts_ls"] = {
+  root_dir = function (_, callback)
+    local deno_dir = vim.fs.root(0, { "deno.json", "deno.jsonc" })
+    local root_dir = vim.fs.root(0, { "package.json", "tsconfig.json" })
+    if root_dir and deno_dir == nil then
+      callback(root_dir)
+    end
+  end
+}
+
+vim.lsp.enable({ "ts_ls" })
+
 vim.lsp.enable({
   "basedpyright",
   "cssls",
-  "denols",
   "gopls",
   "jsonls",
   "lua_ls",
-  "ts_ls",
 })
 
 vim.lsp.enable("pyright", false)
