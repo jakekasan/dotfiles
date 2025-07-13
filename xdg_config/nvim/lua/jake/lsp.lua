@@ -1,48 +1,14 @@
 local utils = require("jake.utils")
 
-vim.lsp.config["lua_ls"] = {
-  cmd = { "lua-language-server" },
-  root_markers = { { ".luarc.json", ".git", "lua" } },
-  filetypes = { "lua" },
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-      }
-    }
-  }
-}
-
-vim.lsp.config["denols"] = {
-  root_dir = function(_, callback)
-    local dir = vim.fs.root(0, { "deno.json", "deno.jsonc" })
-    if dir then
-      return callback(dir)
-    end
-  end
-}
-
-vim.lsp.enable({ "denols" })
-
----@type vim.lsp.Config
-vim.lsp.config["ts_ls"] = {
-  root_dir = function (_, callback)
-    local deno_dir = vim.fs.root(0, { "deno.json", "deno.jsonc" })
-    local root_dir = vim.fs.root(0, { "package.json", "tsconfig.json" })
-    if root_dir and deno_dir == nil then
-      callback(root_dir)
-    end
-  end
-}
-
-vim.lsp.enable({ "ts_ls" })
-
 vim.lsp.enable({
   "basedpyright",
   "cssls",
+  "denols",
   "gopls",
+  "jdtls",
   "jsonls",
   "lua_ls",
+  "ts_ls"
 })
 
 vim.lsp.enable("pyright", false)
@@ -63,6 +29,7 @@ local function add_mappings(_, bufnr)
   nmap("<leader>vrn", function() vim.lsp.buf.rename() end)
   imap("<C-h>", function() vim.lsp.buf.signature_help() end, "Signature [h]elp")
 end
+
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
