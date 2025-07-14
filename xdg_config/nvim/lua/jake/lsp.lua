@@ -37,9 +37,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client == nil then
       return
     end
-    if client:supports_method("textDocument/completion") then
-      vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-    end
+
+    -- if client:supports_method("textDocument/completion") then
+    --   vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
+    -- end
+
     add_mappings(_, event.buf)
   end
 })
