@@ -1,3 +1,4 @@
+---@type vim.lsp.Config
 return {
   root_dir = function (_, callback)
     local deno_dir = vim.fs.root(0, { "deno.json", "deno.jsonc" })
