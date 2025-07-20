@@ -8,6 +8,7 @@ vim.lsp.enable({
   "jdtls",
   "jsonls",
   "lua_ls",
+  "ruff",
   "ts_ls"
 })
 
@@ -30,6 +31,8 @@ local function add_mappings(_, bufnr)
   imap("<C-h>", function() vim.lsp.buf.signature_help() end, "Signature [h]elp")
 end
 
+-- TODO: move elsewhere at some point
+local format_on_save = true
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
@@ -38,9 +41,40 @@ vim.api.nvim_create_autocmd("LspAttach", {
       return
     end
 
-    -- if client:supports_method("textDocument/completion") then
-    --   vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-    -- end
+    if client.name == "ruff" then
+      client.server_capabilities.hoverProvider = false
+    end
+
+    -- TODO: move this somewhere else, too
+    if client:supports_method("textDocument/formatting") then
+      vim.api.nvim_create_user_command("FormatFile", function()
+        vim.lsp.buf.format({ bufnr = event.buf, id = client.id })
+      end, { desc = "Run formatting using compatible client" })
+
+      local lsp_group = vim.api.nvim_create_augroup("JakeLSPStuff", { clear = true })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = event.buf,
+        group = lsp_group,
+        callback = function ()
+          if format_on_save then
+            vim.cmd("FormatFile")
+          else
+          end
+        end
+      })
+    end
+
+    vim.api.nvim_create_user_command("ToggleFormatOnSaveOn", function ()
+      format_on_save = true
+    end, { desc = "Turn formatting on save on" })
+
+    vim.api.nvim_create_user_command("ToggleFormatOnSaveOff", function ()
+      format_on_save = false
+    end, { desc = "Turn formatting on save off" })
+
+    vim.api.nvim_create_user_command("ToggleFormatOnSave", function ()
+      format_on_save = not format_on_save
+    end, { desc = "Toggle formatting on save" })
 
     add_mappings(_, event.buf)
   end
