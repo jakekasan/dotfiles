@@ -1,15 +1,22 @@
 local utils = require("jake.utils")
 
 vim.lsp.enable({
+  "astro",
   "basedpyright",
   "cssls",
   "denols",
   "gopls",
+  "html-lsp",
+  "htmx",
+  "intellephense",
   "jdtls",
   "jsonls",
   "lua_ls",
   "ruff",
-  "ts_ls"
+  "rust_analyzer",
+  "templ",
+  "ts_ls",
+  "yamlls"
 })
 
 vim.lsp.enable("pyright", false)
