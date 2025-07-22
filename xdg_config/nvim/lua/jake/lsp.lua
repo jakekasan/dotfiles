@@ -7,8 +7,7 @@ vim.lsp.enable({
   "denols",
   "gopls",
   "html-lsp",
-  "htmx",
-  "intellephense",
+  "intelephense",
   "jdtls",
   "jsonls",
   "lua_ls",
@@ -23,8 +22,8 @@ vim.lsp.enable("pyright", false)
 vim.lsp.enable("ty", false) -- not ready
 
 local function add_mappings(_, bufnr)
-  local nmap = utils.make_map("n", {buffer = bufnr})
-  local imap = utils.make_map("i", {buffer = bufnr})
+  local nmap = utils.make_map("n", { buffer = bufnr })
+  local imap = utils.make_map("i", { buffer = bufnr })
 
   nmap("gD", function() vim.lsp.buf.declaration() end, "[G]o to [D]eclaration")
   nmap("gd", function() vim.lsp.buf.definition() end, "[G]o to [d]efinition")
@@ -62,7 +61,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = event.buf,
         group = lsp_group,
-        callback = function ()
+        callback = function()
           if format_on_save then
             vim.cmd("FormatFile")
           else
@@ -71,15 +70,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
       })
     end
 
-    vim.api.nvim_create_user_command("ToggleFormatOnSaveOn", function ()
+    vim.api.nvim_create_user_command("ToggleFormatOnSaveOn", function()
       format_on_save = true
     end, { desc = "Turn formatting on save on" })
 
-    vim.api.nvim_create_user_command("ToggleFormatOnSaveOff", function ()
+    vim.api.nvim_create_user_command("ToggleFormatOnSaveOff", function()
       format_on_save = false
     end, { desc = "Turn formatting on save off" })
 
-    vim.api.nvim_create_user_command("ToggleFormatOnSave", function ()
+    vim.api.nvim_create_user_command("ToggleFormatOnSave", function()
       format_on_save = not format_on_save
     end, { desc = "Toggle formatting on save" })
 
@@ -89,4 +88,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 --- WTF
 vim.cmd("set completeopt+=noselect")
-
