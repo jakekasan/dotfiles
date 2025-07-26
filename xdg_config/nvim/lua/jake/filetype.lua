@@ -1,7 +1,6 @@
 vim.filetype.add({
-    extension = {
-        jinja2 = "html",
-        jinja = "html"
-    }
+  extension = {
+    jinja2 = "jinja",
+    jinja = "jinja"
+  }
 })
-

@@ -9,6 +9,7 @@ vim.lsp.enable({
   "html-lsp",
   "intelephense",
   "jdtls",
+  "jinja_lsp",
   "jsonls",
   "lua_ls",
   "ruff",
@@ -19,6 +20,7 @@ vim.lsp.enable({
 })
 
 vim.lsp.enable("pyright", false)
+vim.lsp.enable("htmx", false)
 vim.lsp.enable("ty", false) -- not ready
 
 local function add_mappings(_, bufnr)
