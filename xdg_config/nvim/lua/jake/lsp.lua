@@ -6,7 +6,7 @@ vim.lsp.enable({
   "cssls",
   "denols",
   "gopls",
-  "html-lsp",
+  -- "html-lsp",
   "intelephense",
   "jdtls",
   "jinja_lsp",
@@ -14,6 +14,7 @@ vim.lsp.enable({
   "lua_ls",
   "ruff",
   "rust_analyzer",
+  "stylua",
   "templ",
   "ts_ls",
   "yamlls"
@@ -55,6 +56,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- TODO: move this somewhere else, too
     if client:supports_method("textDocument/formatting") then
+      if client.name == "lua_ls" then
+        return
+      end
       vim.api.nvim_create_user_command("FormatFile", function()
         vim.lsp.buf.format({ bufnr = event.buf, id = client.id })
       end, { desc = "Run formatting using compatible client" })
@@ -66,7 +70,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
         callback = function()
           if format_on_save then
             vim.cmd("FormatFile")
-          else
           end
         end
       })
