@@ -8,7 +8,7 @@ function log_if_debug {
 }
 
 log_if_debug "Selecting from options."
-choice=$(find ~/code/learning ~/code/work/salon-pro ~/code/projects ~/code/personal ~/code/vendor -mindepth 1 -maxdepth 1 | fzf)
+choice=$(find ~/code/learning ~/code/work/salon-pro ~/code/projects ~/code/personal ~/code/vendor ~/code/issues -mindepth 1 -maxdepth 1 | fzf)
 
 if [[ -z "$choice" ]]; then
     log_if_debug "No option selected, will exit."
