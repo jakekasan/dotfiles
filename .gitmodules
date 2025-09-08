@@ -4,3 +4,6 @@
 [submodule "xdg_config/tmux/plugins/tmux-battery"]
 	path = xdg_config/tmux/plugins/tmux-battery
 	url = https://github.com/tmux-plugins/tmux-battery
+[submodule "nvim-config"]
+	path = xdg_config/nvim-config
+	url = git@github.com:jakekasan/nvim-config.git

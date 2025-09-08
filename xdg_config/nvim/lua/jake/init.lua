@@ -1,6 +1,0 @@
-require("jake.options")
-require("jake.remap")
-require("jake.filetype")
-require("jake.lazy")
-require("jake.lsp")
-
