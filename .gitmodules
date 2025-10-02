@@ -7,3 +7,6 @@
 [submodule "xdg_config/nvim-config"]
 	path = xdg_config/nvim-config
 	url = git@github.com:jakekasan/nvim-config.git
+[submodule "xdg_config/nvim"]
+	path = xdg_config/nvim
+	url = git@github.com:jakekasan/nvim-config.git
