@@ -10,3 +10,6 @@
 [submodule "xdg_config/nvim"]
 	path = xdg_config/nvim
 	url = git@github.com:jakekasan/nvim-config.git
+[submodule "xdg_config/zshrc"]
+	path = xdg_config/zshrc
+	url = git@github.com:jakekasan/zshrc.git
