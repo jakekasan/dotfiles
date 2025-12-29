@@ -8,7 +8,30 @@ function log_if_debug {
 }
 
 log_if_debug "Selecting from options."
-choice=$(find ~/code/learning ~/code/work/salon-pro ~/code/projects ~/code/personal ~/code/vendor ~/code/issues -mindepth 1 -maxdepth 1 | fzf)
+DEFAULT_CHOICES=(
+    ~/code/learning
+    ~/code/projects
+    ~/code/personal
+    ~/code/vendor
+    ~/code/scratch
+    ~/code/k8s
+)
+
+log_if_debug "Initial options: ${DEFAULT_CHOICES[@]}"
+
+filter_existing() {
+    for choice in "${DEFAULT_CHOICES[@]}"; do
+        if [[ -d $choice ]]; then
+            echo $choice
+        fi
+    done
+}
+
+actual_choices=$(filter_existing $DEFAULT_CHOICES)
+
+log_if_debug "Setting choices to $actual_choices"
+
+choice=$(find $actual_choices -mindepth 1 -maxdepth 1 | fzf)
 
 if [[ -z "$choice" ]]; then
     log_if_debug "No option selected, will exit."
